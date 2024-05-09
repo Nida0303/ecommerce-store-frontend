@@ -14,7 +14,7 @@ function Footer() {
             style={{ fontFamily: 'Varela Round, sans-serif' }}
         >
             <Typography variant="body1" align="center">
-                © {new Date().getFullYear()} eCommerce Store. All rights reserved.
+                © {new Date().getFullYear()} Elara. All rights reserved.
             </Typography>
         </Box>
     );

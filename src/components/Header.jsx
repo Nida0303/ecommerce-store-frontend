@@ -1,9 +1,17 @@
-// src/components/Header.jsx
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Header() {
+    const navigate = useNavigate();
+    const { user, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    };
+
     return (
         <AppBar position="static" sx={{ backgroundColor: '#135D66', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
             <Toolbar sx={{ justifyContent: 'space-between', padding: '0 20px' }}>
@@ -20,11 +28,11 @@ function Header() {
                         color="inherit"
                         component={Link}
                         to="/"
-                        sx = {{
+                        sx={{
                             fontSize: '18px',
                             fontWeight: 'bold',
                             color: 'white',
-                            fontFamily: 'Varela Round, sans-serif'
+                            fontFamily: 'Varela Round, sans-serif',
                         }}
                     >
                         Home
@@ -33,11 +41,11 @@ function Header() {
                         color="inherit"
                         component={Link}
                         to="/about"
-                        sx = {{
+                        sx={{
                             fontSize: '18px',
                             fontWeight: 'bold',
                             color: 'white',
-                            fontFamily: 'Varela Round, sans-serif'
+                            fontFamily: 'Varela Round, sans-serif',
                         }}
                     >
                         About
@@ -46,41 +54,73 @@ function Header() {
                         color="inherit"
                         component={Link}
                         to="/contact"
-                        sx = {{
+                        sx={{
                             fontSize: '18px',
                             fontWeight: 'bold',
                             color: 'white',
-                            fontFamily: 'Varela Round, sans-serif'
+                            fontFamily: 'Varela Round, sans-serif',
                         }}
                     >
                         Contact Us
                     </Button>
-                    <Button
-                        color="inherit"
-                        component={Link}
-                        to="/login"
-                        sx = {{
-                            fontSize: '18px',
-                            fontWeight: 'bold',
-                            color: 'white',
-                            fontFamily: 'Varela Round, sans-serif'
-                        }}
-                    >
-                        Login
-                    </Button>
-                    <Button
-                        color="inherit"
-                        component={Link}
-                        to="/cart"
-                        sx = {{
-                            fontSize: '18px',
-                            fontWeight: 'bold',
-                            color: 'white',
-                            fontFamily: 'Varela Round, sans-serif'
-                        }}
-                    >
-                        Cart
-                    </Button>
+                    {user ? (
+                        <>
+                            <Button
+                                color="inherit"
+                                onClick={handleLogout}
+                                sx={{
+                                    fontSize: '18px',
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    fontFamily: 'Varela Round, sans-serif',
+                                }}
+                            >
+                                Logout
+                            </Button>
+                            <Button
+                                color="inherit"
+                                component={Link}
+                                to="/cart"
+                                sx={{
+                                    fontSize: '18px',
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    fontFamily: 'Varela Round, sans-serif',
+                                }}
+                            >
+                                Cart
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button
+                                color="inherit"
+                                component={Link}
+                                to="/login"
+                                sx={{
+                                    fontSize: '18px',
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    fontFamily: 'Varela Round, sans-serif',
+                                }}
+                            >
+                                Login
+                            </Button>
+                            <Button
+                                color="inherit"
+                                component={Link}
+                                to="/signup"
+                                sx={{
+                                    fontSize: '18px',
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    fontFamily: 'Varela Round, sans-serif',
+                                }}
+                            >
+                                Sign Up
+                            </Button>
+                        </>
+                    )}
                 </div>
             </Toolbar>
         </AppBar>

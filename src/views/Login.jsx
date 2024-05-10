@@ -4,12 +4,14 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useNavigate, Link } from 'react-router-dom';
 import { loginUser } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -18,9 +20,7 @@ function Login() {
         try {
             const response = await loginUser(email, password);
             console.log('Login response:', response);
-            // Save token and user data to local storage (or any state management solution)
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('user', JSON.stringify(response.user));
+            login(response.user, response.token);
             navigate('/'); // Redirect to home page
         } catch (error) {
             console.error('Login error:', error);

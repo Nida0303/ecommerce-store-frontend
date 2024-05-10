@@ -7,18 +7,21 @@ import ProductRoutes from './ProductRoutes';
 import AboutRoutes from './AboutRoutes';
 import ContactRoutes from './ContactRoutes';
 import CategoriesRoutes from './CategoriesRoutes';
+import {AuthProvider} from "../context/AuthContext";
 
 function AppRoutes() {
     return (
-        <Router>
-            <HomeRoutes />
-            <AuthRoutes />
-            <ProductRoutes />
-            <AboutRoutes />
-            <ContactRoutes />
-            <CategoriesRoutes />
-        </Router>
-    );
+        <AuthProvider>
+            <Router>
+                <HomeRoutes />
+                <AuthRoutes />
+                <ProductRoutes />
+                <AboutRoutes />
+                <ContactRoutes />
+                <CategoriesRoutes />
+            </Router>
+        </AuthProvider>
+);
 }
 
 export default AppRoutes;

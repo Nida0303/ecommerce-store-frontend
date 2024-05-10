@@ -1,18 +1,31 @@
-// src/views/Login.jsx
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import {Link} from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom';
+import { loginUser } from '../services/api';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        console.log(`Email: ${email}, Password: ${password}`);
-        // Perform login action here
+        setErrorMessage('');
+
+        try {
+            const response = await loginUser(email, password);
+            console.log('Login response:', response);
+            // Save token and user data to local storage (or any state management solution)
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('user', JSON.stringify(response.user));
+            navigate('/'); // Redirect to home page
+        } catch (error) {
+            console.error('Login error:', error);
+            setErrorMessage(error.response?.data?.message || 'Login failed');
+        }
     };
 
     return (
@@ -27,7 +40,12 @@ function Login() {
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                     height: '400px'
                 }}>
-                    <Typography variant="h4" gutterBottom fontWeight={"bold"}>Login</Typography>
+                    <Typography variant="h4" gutterBottom fontWeight="bold">Login</Typography>
+                    {errorMessage && (
+                        <Typography variant="body2" color="error" paragraph>
+                            {errorMessage}
+                        </Typography>
+                    )}
                     <form onSubmit={handleLogin}>
                         <TextField
                             label="Email"
@@ -52,7 +70,7 @@ function Login() {
                             variant="contained"
                             color="primary"
                             fullWidth
-                            style={{ marginTop: '40px', fontWeight:"bold" }}
+                            style={{ marginTop: '40px', fontWeight: 'bold' }}
                         >
                             Login
                         </Button>
@@ -60,7 +78,7 @@ function Login() {
                     <Box mt={2}>
                         <Typography variant="body2" component="p">
                             Don't have an account?{' '}
-                            <Link component="span" underline="hover" to={'/signup'}>
+                            <Link component="span" underline="hover" to="/signup">
                                 SignUp
                             </Link>
                         </Typography>

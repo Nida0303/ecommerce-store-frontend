@@ -1,4 +1,4 @@
-// src/routes/CategoriesRoutes.jsx
+// src/routes/CategoriesRoutes.js
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CategoriesPage from '../views/CategoriesPage';

@@ -1,35 +1,27 @@
-// src/views/ProductDetails.jsx
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { Container, Grid, Typography, TextField, Button, Box } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { getProductById } from '../controllers/productController';
+import { getProductById } from '../services/api';
 
 function ProductDetails() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
-        getProductById(parseInt(id, 10)).then(setProduct);
+        getProductById(id).then(setProduct);
     }, [id]);
 
     const handleAddToCart = () => {
-        console.log(`Added ${quantity} of ${product.name} to cart`);
+        console.log(`Added ${quantity} of ${product?.name} to cart`);
         // Implement cart logic here
     };
 
     if (!product) {
-        return (
-            <>
-                <Header />
-                <Container>
-                    <Typography variant="h4" mt={5}>Loading...</Typography>
-                </Container>
-                <Footer />
-            </>
-        );
+        return <Typography variant="h5" textAlign="center" mt={5}>Loading...</Typography>;
     }
 
     return (
@@ -38,12 +30,16 @@ function ProductDetails() {
             <Container>
                 <Grid container spacing={3} mt={5}>
                     <Grid item xs={12} md={6}>
-                        <img src={product.image} alt={product.name} style={{ width: '100%', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }} />
+                        <img
+                            src={process.env.PUBLIC_URL + product.image}
+                            alt={product.name}
+                            style={{ width: '100%', borderRadius: '10px', marginRight: '20px' }}
+                        />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Typography variant="h4" marginBottom={'20px'}>{product.name}</Typography>
-                        <Typography variant="h6" color="text.secondary" marginBottom={'20px'} gutterBottom>${product.price}</Typography>
-                        <Typography variant="body1" marginBottom={'40px'} paragraph>{product.description}</Typography>
+                        <Typography variant="h4">{product.name}</Typography>
+                        <Typography variant="h6" color="text.secondary" gutterBottom>${product.price}</Typography>
+                        <Typography variant="body1" paragraph>{product.description}</Typography>
                         <Box display="flex" alignItems="center" mb={2}>
                             <TextField
                                 label="Quantity"
@@ -57,6 +53,7 @@ function ProductDetails() {
                             />
                             <Button variant="contained" color="primary" onClick={handleAddToCart}>Add to Cart</Button>
                         </Box>
+                        <Button variant="outlined" onClick={() => navigate(-1)}>Go Back</Button>
                     </Grid>
                 </Grid>
             </Container>

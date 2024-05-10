@@ -1,17 +1,44 @@
-// src/services/api.js
 import axios from 'axios';
 
-const API = axios.create({
-    baseURL: 'http://localhost:8000/api',
-    headers: { 'Content-Type': 'application/json' }
-});
+const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
-API.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+export const getAllProducts = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/products`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        return [];
     }
-    return config;
-});
+};
 
-export default API;
+export const getProductById = async (id) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/products/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching product ${id}:`, error);
+        return null;
+    }
+};
+
+export const getProductsByCategory = async (categoryId) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/categories/${categoryId}/products`);
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching products for category ${categoryId}:`, error);
+        return [];
+    }
+};
+
+export const getAllCategories = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/categories`);
+        return response.data || [];
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        return [];
+    }
+};
+

@@ -1,4 +1,3 @@
-// src/routes/AppRoutes.jsx
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import HomeRoutes from './HomeRoutes';
@@ -8,6 +7,9 @@ import AboutRoutes from './AboutRoutes';
 import ContactRoutes from './ContactRoutes';
 import CategoriesRoutes from './CategoriesRoutes';
 import {AuthProvider} from "../context/AuthContext";
+import ProfileRoute from "./ProfileRoute";
+import CartRoute from "./CartRoute";
+import Orders from "../views/Orders";
 
 function AppRoutes() {
     return (
@@ -19,6 +21,9 @@ function AppRoutes() {
                 <AboutRoutes />
                 <ContactRoutes />
                 <CategoriesRoutes />
+                <ProfileRoute />
+                <CartRoute />
+                <Orders />
             </Router>
         </AuthProvider>
 );

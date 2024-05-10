@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
@@ -7,9 +8,14 @@ const apiClient = axios.create({
     withCredentials: true, // Ensure cross-origin cookies are sent
 });
 
+const authHeader = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
 export const getAllProducts = async () => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/products`);
+        const response = await apiClient.get('/products');
         return response.data;
     } catch (error) {
         console.error('Error fetching products:', error);
@@ -19,7 +25,7 @@ export const getAllProducts = async () => {
 
 export const getProductById = async (id) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/products/${id}`);
+        const response = await apiClient.get(`/products/${id}`);
         return response.data;
     } catch (error) {
         console.error(`Error fetching product ${id}:`, error);
@@ -29,7 +35,7 @@ export const getProductById = async (id) => {
 
 export const getProductsByCategory = async (categoryId) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/categories/${categoryId}/products`);
+        const response = await apiClient.get(`/categories/${categoryId}/products`);
         return response.data;
     } catch (error) {
         console.error(`Error fetching products for category ${categoryId}:`, error);
@@ -39,7 +45,7 @@ export const getProductsByCategory = async (categoryId) => {
 
 export const getAllCategories = async () => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/categories`);
+        const response = await apiClient.get('/categories');
         return response.data || [];
     } catch (error) {
         console.error('Error fetching categories:', error);
@@ -71,5 +77,25 @@ export const loginUser = async (email, password) => {
     } catch (error) {
         console.error('Error logging in:', error);
         throw error;
+    }
+};
+
+export const createOrder = async (cartItems, total) => {
+    try {
+        const response = await apiClient.post('/orders', { cartItems, total }, { headers: authHeader() });
+        return response.data;
+    } catch (error) {
+        console.error('Error creating order:', error);
+        throw error;
+    }
+};
+
+export const getAllUserOrders = async () => {
+    try {
+        const response = await apiClient.get('/orders', { headers: authHeader() });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        return [];
     }
 };

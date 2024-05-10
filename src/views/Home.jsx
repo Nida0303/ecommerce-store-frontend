@@ -18,7 +18,6 @@ function Home() {
 
         getAllCategories()
             .then((data) => {
-                console.log('Fetched categories:', data);
                 setCategories(data);
             })
             .catch((error) => console.error('Error fetching categories:', error));

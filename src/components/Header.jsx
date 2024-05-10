@@ -40,6 +40,19 @@ function Header() {
                     <Button
                         color="inherit"
                         component={Link}
+                        to="/products"
+                        sx={{
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            color: 'white',
+                            fontFamily: 'Varela Round, sans-serif',
+                        }}
+                    >
+                        Products
+                    </Button>
+                    <Button
+                        color="inherit"
+                        component={Link}
                         to="/about"
                         sx={{
                             fontSize: '18px',
@@ -67,6 +80,19 @@ function Header() {
                         <>
                             <Button
                                 color="inherit"
+                                component={Link}
+                                to="/orders"
+                                sx={{
+                                    fontSize: '18px',
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    fontFamily: 'Varela Round, sans-serif',
+                                }}
+                            >
+                                My Orders
+                            </Button>
+                            <Button
+                                color="inherit"
                                 onClick={handleLogout}
                                 sx={{
                                     fontSize: '18px',
@@ -89,6 +115,19 @@ function Header() {
                                 }}
                             >
                                 Cart
+                            </Button>
+                            <Button
+                                color="inherit"
+                                component={Link}
+                                to="/profile"
+                                sx={{
+                                    fontSize: '18px',
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    fontFamily: 'Varela Round, sans-serif',
+                                }}
+                            >
+                                Profile
                             </Button>
                         </>
                     ) : (

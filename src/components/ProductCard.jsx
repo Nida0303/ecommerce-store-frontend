@@ -7,7 +7,7 @@ function ProductCard({ product }) {
     const navigate = useNavigate();
 
     return (
-        <Card>
+        <Card sx={{maxWidth: "400px"}}>
             <CardMedia
                 component="img"
                 height="250"

@@ -68,6 +68,19 @@ function Header() {
                     >
                         Login
                     </Button>
+                    <Button
+                        color="inherit"
+                        component={Link}
+                        to="/cart"
+                        sx = {{
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            color: 'white',
+                            fontFamily: 'Varela Round, sans-serif'
+                        }}
+                    >
+                        Cart
+                    </Button>
                 </div>
             </Toolbar>
         </AppBar>
